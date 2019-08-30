@@ -69,8 +69,9 @@ export class WorkerClient {
 				return Promise.resolve()
 			},
 			progress: (message: Message) => {
-				if (this._progressUpdater) {
-					this._progressUpdater(message.args[0])
+				const progressUpdater = this._progressUpdater
+				if (progressUpdater) {
+					progressUpdater(downcast(message.args[0]))
 				}
 				return Promise.resolve()
 			},

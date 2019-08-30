@@ -113,7 +113,7 @@ export class MailListView implements Component {
 	}
 
 	// Do not start many fixes in parallel, do check after some time when counters are more likely to settle
-	_fixCounterIfNeeded = debounce(2000, (listId, listLength) => {
+	_fixCounterIfNeeded = debounce(2000, (listId: Id, listLength: number) => {
 		// If folders are changed, list won't have the data we need.
 		// Do not rely on counters if we are not connected
 		if (this.listId !== listId || worker.wsConnection()() !== "connected") {

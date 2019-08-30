@@ -37,7 +37,7 @@ export class CalendarEventBubble implements MComponent<CalendarEventBubbleAttrs>
 				},
 				onclick: (e) => {
 					e.stopPropagation()
-					attrs.onEventClicked(e)
+					attrs.onEventClicked(e, e.target)
 				}
 			}, [
 				attrs.hasAlarm

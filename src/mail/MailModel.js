@@ -258,7 +258,7 @@ export class MailModel {
 	}
 
 	_showNotification(mailId: IdTuple) {
-		this._notifications.showNotification(lang.get("newMails_msg"), {}, (e) => {
+		this._notifications.showNotification(lang.get("newMails_msg"), {actions: []}, (e) => {
 			m.route.set(`/mail/${listIdPart(mailId)}/${elementIdPart(mailId)}`)
 			window.focus()
 		})

@@ -298,7 +298,7 @@ export class DesktopSseClient {
 
 	_downloadMissedNotification(): Promise<any> {
 		return new Promise((resolve, reject) => {
-			const fail = (req: ClientRequest, res: ?http$IncomingMessage, e: ?Error | ?string) => {
+			const fail = (req: ClientRequest, res: ?http$IncomingMessage<net$Socket>, e: ?Error | ?string) => {
 				if (res) {
 					res.destroy()
 				}

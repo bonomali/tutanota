@@ -35,7 +35,7 @@ import {assertMainOrNode, isAndroidApp, isDesktop, isIOSApp} from "../api/Env"
 import {htmlSanitizer, stringifyFragment} from "../misc/HtmlSanitizer"
 import {Dialog} from "../gui/base/Dialog"
 import type {DeferredObject} from "../api/common/utils/Utils"
-import {defer, getMailBodyText, getMailHeaders, neverNull, noOp} from "../api/common/utils/Utils"
+import {defer, downcast, getMailBodyText, getMailHeaders, neverNull, noOp} from "../api/common/utils/Utils"
 import {checkApprovalStatus} from "../misc/ErrorHandlerImpl"
 import {addAll, contains} from "../api/common/utils/ArrayUtils"
 import {startsWith} from "../api/common/utils/StringUtils"
@@ -721,7 +721,7 @@ export class MailViewer {
 							},
 							type: ButtonType.Dropdown
 						}
-					])(event, dom)
+					])(downcast(event), dom)
 				})
 			})
 		})

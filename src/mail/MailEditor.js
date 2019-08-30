@@ -100,6 +100,7 @@ import {isMailAddress} from "../misc/FormatValidator"
 import {DbError} from "../api/common/error/DbError"
 import {findRecipients} from "../native/ContactApp"
 import {createApprovalMail} from "../api/entities/monitor/ApprovalMail"
+import {newMouseEvent} from "../gui/HtmlUtils"
 
 assertMainOrNode()
 
@@ -195,7 +196,7 @@ export class MailEditor {
 
 		let attachFilesButtonAttrs = {
 			label: "attachFiles_action",
-			click: (ev, attrs) => this._showFileChooserForAttachments(ev.target.getBoundingClientRect()),
+			click: (ev, dom) => this._showFileChooserForAttachments(dom.getBoundingClientRect()),
 			icon: () => Icons.Attachment,
 			noBubble: true
 		}
@@ -275,7 +276,8 @@ export class MailEditor {
 			return m("#mail-editor.full-height.text.touch-callout", {
 				oncreate: vnode => {
 					this._domElement = vnode.dom
-					windowCloseUnsubscribe = windowFacade.addWindowCloseListener(() => closeButtonAttrs.click(document.createEvent("MouseEvent"), this._domCloseButton))
+					windowCloseUnsubscribe = windowFacade.addWindowCloseListener(() =>
+						closeButtonAttrs.click(newMouseEvent(), this._domCloseButton))
 				},
 				onremove: vnode => {
 					windowCloseUnsubscribe()
@@ -345,7 +347,7 @@ export class MailEditor {
 		this.dialog = Dialog.largeDialog(headerBarAttrs, this)
 		                    .addShortcut({
 			                    key: Keys.ESC,
-			                    exec: () => closeButtonAttrs.click(document.createEvent("MouseEvent"), this._domCloseButton),
+			                    exec: () => {closeButtonAttrs.click(newMouseEvent(), this._domCloseButton)},
 			                    help: "close_alt"
 		                    })
 		                    .addShortcut({
@@ -390,7 +392,7 @@ export class MailEditor {
 				                    this.send()
 			                    },
 			                    help: "send_action"
-		                    }).setCloseHandler(() => closeButtonAttrs.click(document.createEvent("MouseEvent"), this._domCloseButton))
+		                    }).setCloseHandler(() => closeButtonAttrs.click(newMouseEvent(), this._domCloseButton))
 		this._mailChanged = false
 	}
 
@@ -630,7 +632,7 @@ export class MailEditor {
 								},
 								type: ButtonType.Dropdown
 							}
-						])(event, dom)
+						])(downcast(event), dom)
 					})
 				})
 			})
@@ -706,10 +708,10 @@ export class MailEditor {
 					type: ButtonType.Secondary,
 					click: () => {
 						if (file._type === 'FileReference') {
-							return fileApp.open((file: FileReference))
+							return fileApp.open(downcast(file))
 							              .catch(FileOpenError, () => Dialog.error("canNotOpenFileOnDevice_msg"))
 						} else if (file._type === "DataFile") {
-							return fileController.open(file)
+							return fileController.open(downcast(file))
 						} else {
 							fileController.downloadAndOpen(((file: any): TutanotaFile), true)
 							              .catch(FileOpenError, () => Dialog.error("canNotOpenFileOnDevice_msg"))
@@ -989,7 +991,7 @@ export class MailEditor {
 		}))
 	}
 
-	_allRecipients() {
+	_allRecipients(): Array<RecipientInfo> {
 		return this.toRecipients.bubbles.map(b => b.entity)
 		           .concat(this.ccRecipients.bubbles.map(b => b.entity))
 		           .concat(this.bccRecipients.bubbles.map(b => b.entity))

@@ -6,7 +6,7 @@ import {load, loadRange, update} from "../api/main/Entity"
 import * as AddSpamRuleDialog from "./AddSpamRuleDialog"
 import type {SpamRuleFieldTypeEnum, SpamRuleTypeEnum} from "../api/common/TutanotaConstants"
 import {getSparmRuleField, GroupType, OperationType, SpamRuleFieldType, SpamRuleType} from "../api/common/TutanotaConstants"
-import {getCustomMailDomains, getUserGroupMemberships, neverNull, objectEntries} from "../api/common/utils/Utils"
+import {getCustomMailDomains, getUserGroupMemberships, neverNull, noOp, objectEntries} from "../api/common/utils/Utils"
 import {CustomerServerPropertiesTypeRef} from "../api/entities/sys/CustomerServerProperties"
 import {worker} from "../api/main/WorkerClient"
 import {GENERATED_MAX_ID} from "../api/common/EntityFunctions"
@@ -327,7 +327,7 @@ export class GlobalSettingsViewer implements UpdatableSettingsViewer {
 								info: domainDnsStatus.getDnsStatusInfo(),
 								click: (domainDnsStatus.status.isLoaded() && !domainDnsStatus.areAllRecordsFine()) ? () => {
 									showDnsCheckDialog(domainDnsStatus)
-								} : null
+								} : noOp
 							},
 							{
 								main: catchAllGroupName,

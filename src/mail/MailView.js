@@ -63,6 +63,7 @@ import {size} from "../gui/size"
 import {FolderColumnView} from "../gui/base/FolderColumnView"
 import {modal} from "../gui/base/Modal"
 import {DomRectReadOnlyPolyfilled} from "../gui/base/Dropdown"
+import type {TranslationKey} from "../misc/LanguageViewModel"
 
 assertMainOrNode()
 
@@ -682,7 +683,7 @@ export class MailView implements CurrentView {
 			: mailModel.getUserMailboxDetails()
 	}
 
-	_checkFolderName(name: string, mailGroupId: Id): Promise<?string> {
+	_checkFolderName(name: string, mailGroupId: Id): Promise<?TranslationKey> {
 		return mailModel.getMailboxDetailsForMailGroup(mailGroupId)
 		                .then((mailboxDetails) => {
 			                if (name.trim() === "") {

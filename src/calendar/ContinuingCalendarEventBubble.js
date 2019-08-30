@@ -10,7 +10,7 @@ type ContinuingCalendarEventBubbleAttrs = {|
 	startsBefore: boolean,
 	endsAfter: boolean,
 	color: string,
-	onEventClicked: clickHandler,
+	onEventClicked: (event: CalendarEvent) => mixed,
 	showTime: EventTextTimeOptionEnum,
 |}
 
